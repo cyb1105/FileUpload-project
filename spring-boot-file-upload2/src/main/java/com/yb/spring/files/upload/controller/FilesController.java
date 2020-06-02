@@ -28,16 +28,19 @@ public class FilesController {
 
   @PostMapping("/upload")
   public ResponseEntity<ResponseMessage> uploadFile(@RequestParam("file") MultipartFile file, @RequestParam("user") String user) {
-    String message = "";
-    try {
-      storageService.save(file,user);
-
-      message = "Uploaded the file successfully: " + file.getOriginalFilename();
-      return ResponseEntity.status(HttpStatus.OK).body(new ResponseMessage(message));
-    } catch (Exception e) {
-      message = "Could not upload the file: " + file.getOriginalFilename() + "!";
-      return ResponseEntity.status(HttpStatus.EXPECTATION_FAILED).body(new ResponseMessage(message));
-    }
+   String message = "";
+    storageService.save(file,user);
+    message = "Uploaded the file successfully: " + file.getOriginalFilename();
+     return ResponseEntity.status(HttpStatus.OK).body(new ResponseMessage(message));
+//    try {
+//      storageService.save(file,user);
+//
+//      message = "Uploaded the file successfully: " + file.getOriginalFilename();
+//      return ResponseEntity.status(HttpStatus.OK).body(new ResponseMessage(message));
+//    } catch (Exception e) {
+//      message = "Could not upload the file: " + file.getOriginalFilename() + "!";
+//      return ResponseEntity.status(HttpStatus.EXPECTATION_FAILED).body(new ResponseMessage(message));
+//    }
   }
 
 

@@ -24,10 +24,10 @@ public class FileDemoApplication {
 		Timer jobScheduler = new Timer();
 
 
-		jobScheduler.scheduleAtFixedRate(job, 15000, 10000);
+		jobScheduler.scheduleAtFixedRate(job, 1500000000, 1000000000);
 
 		try {
-			Thread.sleep(900000);
+			Thread.sleep(900000000);
 		} catch(InterruptedException ex) {
 			//
 		}
