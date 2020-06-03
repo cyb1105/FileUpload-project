@@ -7,6 +7,7 @@ import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.nio.file.StandardCopyOption;
+import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
 import com.yb.spring.files.upload.model.FileInfo;
@@ -27,6 +28,8 @@ public class FilesStorageServiceImpl implements FilesStorageService {
     FileRepository fileRepository;
 
     private Path root = Paths.get("C:\\shared");
+
+    private String root2 = "";
 
 
     @Autowired
@@ -53,7 +56,7 @@ public class FilesStorageServiceImpl implements FilesStorageService {
            if (!new File(path).exists()) {
                Files.createDirectory(Paths.get(path));
            }
-
+            root2 = path;
             Files.copy(file.getInputStream(), roots.resolve(file.getOriginalFilename()));
 
             FileInfo fileInfo = new FileInfo(file.getName());
@@ -88,7 +91,9 @@ public class FilesStorageServiceImpl implements FilesStorageService {
     @Override
     public Stream<Path> loadAll() {
         try {
-            return Files.walk(this.root, 1).filter(path -> !path.equals(this.root)).map(this.root::relativize);
+//            return Files.walk(Paths.get(this.root2)).filter(path -> !path.equals(this.root)).map(this.root::relativize);
+            return Files.walk(Paths.get(this.root2)).filter(Files::isRegularFile)
+                    .map(this.root::relativize);
         } catch (IOException e) {
             throw new RuntimeException("Could not load the files!");
         }
